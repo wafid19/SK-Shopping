@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import React from "react";
@@ -17,9 +18,11 @@ function AllProduct({ onSelectProduct = () => {} }) {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3030/products")
+      .get("http://localhost:3000/products")
       .then((resp) => {
         setProducts(resp.data);
+        console.log(products);
+        
       })
       .catch(() => {
         console.error("Error fetching products:", error);
