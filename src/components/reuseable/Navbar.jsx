@@ -44,9 +44,9 @@ function Navbar() {
             <Link to="/product" className="hover:text-gray-700">
               Products
             </Link>
-            <a href="/contact" className="hover:text-gray-700">
-              Contact
-            </a>
+            <Link to={"/product/card/"}>
+               Cart
+            </Link>
           </div>
 
           {/* Mobile Menu Toggle */}

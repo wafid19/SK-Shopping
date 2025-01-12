@@ -16,6 +16,7 @@ import { FcViewDetails } from "react-icons/fc";
 // eslint-disable-next-line react/prop-types
 function AllProduct({ onSelectProduct = () => {} }) {
   const [products, setProducts] = useState([]);
+  const [cart , setCart] = useState([])
   useEffect(() => {
     axios
       .get("http://localhost:3000/products")
@@ -28,6 +29,19 @@ function AllProduct({ onSelectProduct = () => {} }) {
         console.error("Error fetching products:", error);
       });
   }, []);
+
+
+  const handelAddToCart = (cproduct) =>{
+    const cartProduct = [...cart, cproduct];
+    setCart(cartProduct)
+  };
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const json = JSON.stringify(cart);
+      localStorage.setItem('cart', json);
+    }
+  }, [cart]);
 
   // console.log(products);
 
@@ -65,17 +79,19 @@ function AllProduct({ onSelectProduct = () => {} }) {
       <Carousel responsive={responsive} autoPlay infinite className="py-4">
         {products.map((p) => (
           <div key={p.id}>
-            <Link to={"/product/details/" + p.id}>
+             
               <Card
                 hoverable
                 style={{ width: 240 }}
                 cover={
+                  <Link to={"/product/details/" + p.id}>
                   <img
                     alt="example"
                     className="h-[300px] shadow-lg"
                     key={p.id}
                     src={p.img}
                   />
+                  </Link>
                 }
                 onClick={() => onSelectProduct(p)}
               >
@@ -86,11 +102,9 @@ function AllProduct({ onSelectProduct = () => {} }) {
                   <h3 className="text-md font-semibold">Price:${p.price}</h3>
                 </div>
                 <div className="flex justify-between ">
-                  <Link to={"/product/card/"+ p.id}>
-                    <button className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f6f8f8] border border-red-100">
+                    <button onClick={()=>handelAddToCart(p)} className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f6f8f8] border border-red-100">
                       <FaCartShopping />
                     </button>
-                  </Link>
                   <Link to={"/product/details/" + p.id}>
                   <button className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f0f4f3] border border-red-100">
                     <FcViewDetails />
@@ -98,24 +112,25 @@ function AllProduct({ onSelectProduct = () => {} }) {
                   </Link>
                 </div>
               </Card>
-            </Link>
           </div>
         ))}
       </Carousel>
       <Carousel responsive={responsive} autoPlay infinite className="py-4">
         {products.map((p) => (
           <div key={p.id}>
-            <Link to={"/product/details/" + p.id}>
+             
               <Card
                 hoverable
                 style={{ width: 240 }}
                 cover={
+                  <Link to={"/product/details/" + p.id}>
                   <img
                     alt="example"
                     className="h-[300px] shadow-lg"
                     key={p.id}
                     src={p.img}
                   />
+                  </Link>
                 }
                 onClick={() => onSelectProduct(p)}
               >
@@ -126,11 +141,9 @@ function AllProduct({ onSelectProduct = () => {} }) {
                   <h3 className="text-md font-semibold">Price:${p.price}</h3>
                 </div>
                 <div className="flex justify-between ">
-                  <Link to={"/product/card/"+ p.id}>
-                    <button className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f6f8f8] border border-red-100">
+                    <button onClick={()=>handelAddToCart(p)} className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f6f8f8] border border-red-100">
                       <FaCartShopping />
                     </button>
-                  </Link>
                   <Link to={"/product/details/" + p.id}>
                   <button className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f0f4f3] border border-red-100">
                     <FcViewDetails />
@@ -138,7 +151,6 @@ function AllProduct({ onSelectProduct = () => {} }) {
                   </Link>
                 </div>
               </Card>
-            </Link>
           </div>
         ))}
       </Carousel>

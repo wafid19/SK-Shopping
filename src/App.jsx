@@ -27,7 +27,7 @@ function App() {
       element:<><TopSection /><ProductDetails /></>
     },
     {
-      path:"/product/card/:productId",
+      path:"/product/card/",
       element:<><TopSection /><AddToCard/></>
     }
 

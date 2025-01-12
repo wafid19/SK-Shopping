@@ -8,7 +8,7 @@ function ProductDetails() {
   const { productId } = useParams();
   useEffect(() => {
     axios
-      .get("http://localhost:3030/products")
+      .get("http://localhost:3000/products")
       .then((resp) => {
         setProducts(resp.data);
       })
@@ -18,7 +18,6 @@ function ProductDetails() {
   }, []);
 
   const product = products.find((p) => p.id === productId);
-  console.log(product);
   
   const discountedPrice = (
     product?.price -
