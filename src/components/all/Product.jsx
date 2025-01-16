@@ -10,11 +10,14 @@ import { Card } from "antd";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FcViewDetails } from "react-icons/fc";
 
 function Product() {
   const { Meta } = Card;
 
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+
   useEffect(() => {
     axios
       .get("http://localhost:3000/products")
@@ -25,6 +28,18 @@ function Product() {
         console.error("Error fetching products:", error);
       });
   }, []);
+
+  const handelAddToCart = (cproduct) => {
+    const cartProduct = [...cart, cproduct];
+    setCart(cartProduct);
+  };
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const json = JSON.stringify(cart);
+      localStorage.setItem("cart", json);
+    }
+  }, [cart]);
 
   const responsive = {
     superLargeDesktop: {
@@ -56,38 +71,44 @@ function Product() {
 
   return (
     <div className="px-4 py-4">
-      <Carousel responsive={responsive} autoPlay infinite>
+      <Carousel responsive={responsive} autoPlay infinite className="py-4">
         {products.map((p) => (
           <div key={p.id}>
-            <Link to={"/product/details/" + p.id}>
-              <Card
-                hoverable
-                style={{ width: 240 }}
-                cover={
+            <Card
+              hoverable
+              style={{ width: 240 }}
+              cover={
+                <Link to={"/product/details/" + p.id}>
                   <img
                     alt="example"
-                    className="h-[300px]"
+                    className="h-[300px] shadow-lg"
                     key={p.id}
                     src={p.img}
                   />
-                }
-              >
-                <div className="flex justify-center ">
-                  <h2 className="text-md font-semibold">{p.brand}</h2>
-                </div>
-                <div className="flex justify-center ">
-                  <h3 className="text-md font-semibold">Price:${p.price}</h3>
-                </div>
-                <div className="flex justify-between ">
-                  <button className="w-[150px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-white border border-red-100">
-                    <FaCartShopping />
+                </Link>
+              }
+              onClick={() => onSelectProduct(p)}
+            >
+              <div className="flex justify-center ">
+                <h3 className="text-md font-semibold">{p.brand}</h3>
+              </div>
+              <div className="flex justify-center ">
+                <h3 className="text-md font-semibold">Price:${p.price}</h3>
+              </div>
+              <div className="flex justify-between ">
+                <button
+                  onClick={() => handelAddToCart(p)}
+                  className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f6f8f8] border border-red-100"
+                >
+                  <FaCartShopping />
+                </button>
+                <Link to={"/product/details/" + p.id}>
+                  <button className="w-[87px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-[#f0f4f3] border border-red-100">
+                    <FcViewDetails />
                   </button>
-                  <button className="w-[150px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e] text-white border border-red-100">
-                    <FaHeart />
-                  </button>
-                </div>
-              </Card>
-            </Link>
+                </Link>
+              </div>
+            </Card>
           </div>
         ))}
       </Carousel>

@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import TopSection from "./components/reuseable/TopSection";
 import ProductDetails from "./components/all/ProductDetails";
 import AddToCard from "./components/all/AddToCard";
+import TotalProduct from "./components/all/TotalProduct";
 
 function App() {
 
@@ -19,7 +20,7 @@ function App() {
     },
     {
       path:"/product",
-      element:<><TopSection/><AllProduct /></> 
+      element:<><TopSection/><TotalProduct/></> 
     },
 
     {

@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 
 function ProductDetails() {
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
+
   const { productId } = useParams();
   useEffect(() => {
     axios
@@ -17,16 +19,26 @@ function ProductDetails() {
       });
   }, []);
 
+  const handelAddToCart = (cproduct) => {
+    const cartProduct = [...cart, cproduct];
+    setCart(cartProduct);
+  };
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const json = JSON.stringify(cart);
+      localStorage.setItem("cart", json);
+    }
+  }, [cart]);
+
   const product = products.find((p) => p.id === productId);
-  
+
   const discountedPrice = (
     product?.price -
     (product?.price * product?.discountPercentage) / 100
   ).toFixed(2);
 
-  
-  return(
-
+  return (
     <div className="container mx-auto p-6">
       <div className="flex flex-col md:flex-row bg-white shadow-black shadow-lg rounded-lg overflow-hidden">
         <div className="md:w-1/2">
@@ -72,7 +84,7 @@ function ProductDetails() {
               {product?.stock} left
             </span>
           </div>
-          <button className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          <button onClick={() => handelAddToCart(product)} className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Add to Cart
           </button>
         </div>
