@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -58,9 +59,8 @@ function AddToCard() {
       </div>
     );
   }
-
-
-
+  
+  
 
 
   
@@ -120,16 +120,21 @@ function AddToCard() {
           <div className="mt-8 flex items-center justify-between">
             <button
               onClick={clearCart}
-              className="text-red-500 hover:text-red-600"
+              className="text-[#ffff]  hover:bg-blue-600 w-[100px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e]  border border-red-100"
             >
               Clear Cart
+            </button>
+            <button
+              className="text-[#ffff]  hover:bg-blue-600 w-[150px] h-10 m-1 flex justify-center items-center rounded-full bg-[#03045e]  border border-red-100"
+            >
+             Continue Shopping
             </button>
             <div className="text-right">
               <p className="text-lg font-semibold">
                 Total: ${total.toFixed(2)}
               </p>
               <button
-                className="mt-4 bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600"
+                className="mt-4 bg-[#03045e] text-white px-6 py-2 rounded hover:bg-blue-600"
                 onClick={() => {/* Add checkout logic */}}
               >
                 Checkout

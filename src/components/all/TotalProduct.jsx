@@ -13,6 +13,7 @@ import { FcViewDetails } from "react-icons/fc";
 function TotalProduct() {
     const [currentPage, setCurrentPage] = useState(1);
     const [products, setProducts] = useState([])
+    const [cart , setCart] = useState([])
     const productsPerPage = 8;
 
       useEffect(() => {
@@ -27,6 +28,34 @@ function TotalProduct() {
             console.error("Error fetching products:", error);
           });
       }, []);
+
+      const handelAddToCart = (cproduct) => {
+        // Retrieve cart from localStorage
+        const storedCart = localStorage.getItem('cart');
+        const parsedCart = storedCart ? JSON.parse(storedCart) : [];
+      
+        // Check if the product already exists in the cart
+        const existingProductIndex = parsedCart.findIndex(item => item.id === cproduct.id);
+      
+        if (existingProductIndex >= 0) {
+          // If the product exists, update its quantity
+          parsedCart[existingProductIndex].quantity += 1;
+        } else {
+          // If it's a new product, add it with an initial quantity
+          parsedCart.push({ ...cproduct, quantity: 1 });
+        }
+      
+        // Update cart state and localStorage
+        setCart(parsedCart);
+        localStorage.setItem('cart', JSON.stringify(parsedCart));
+      };
+      
+        useEffect(() => {
+          if (cart.length > 0) {
+            const json = JSON.stringify(cart);
+            localStorage.setItem('cart', json);
+          }
+        }, [cart]);
   
     // Calculate pagination values
     const indexOfLastProduct = currentPage * productsPerPage;
